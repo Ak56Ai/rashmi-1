@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { CheckCircle, ArrowRight, Home } from 'lucide-react';
+import { CircleCheck as CheckCircle, ArrowRight, Chrome as Home } from 'lucide-react';
 
 export default function PaymentSuccessPage() {
   const searchParams = useSearchParams();

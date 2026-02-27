@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { ShoppingCart, Loader2 } from 'lucide-react';
+import { ShoppingCart, Loader as Loader2 } from 'lucide-react';
 import { supabase } from '@/lib/supabaseClient';
 
 interface CheckoutButtonProps {
