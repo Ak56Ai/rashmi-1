@@ -3,72 +3,14 @@
 import { useEffect, useRef, useState } from 'react';
 import ProductCard from './product-card';
 import { Button } from '@/components/ui/button';
+import { Product } from '@/lib/supabaseClient';
 
-const featuredProducts = [
-  {
-    id: 1,
-    name: 'Pure Himalayan Shilajit',
-    price: 2499,
-    originalPrice: 3499,
-    image: 'https://images.pexels.com/photos/6191428/pexels-photo-6191428.jpeg?auto=compress&cs=tinysrgb&w=800',
-    category: 'Himalayan Herbs',
-    rating: 5,
-    reviews: 128,
-    badge: 'Bestseller'
-  },
-  {
-    id: 2,
-    name: 'Organic Kashmiri Saffron',
-    price: 4999,
-    originalPrice: 6499,
-    image: 'https://images.pexels.com/photos/4198170/pexels-photo-4198170.jpeg?auto=compress&cs=tinysrgb&w=800',
-    category: 'Premium Spices',
-    rating: 5,
-    reviews: 89,
-    badge: 'Limited'
-  },
-  {
-    id: 3,
-    name: 'Himalayan Pink Salt',
-    price: 299,
-    image: 'https://images.pexels.com/photos/7426829/pexels-photo-7426829.jpeg?auto=compress&cs=tinysrgb&w=800',
-    category: 'Natural Salts',
-    rating: 4,
-    reviews: 245
-  },
-  {
-    id: 4,
-    name: 'Ashwagandha Root Powder',
-    price: 599,
-    originalPrice: 799,
-    image: 'https://images.pexels.com/photos/5835255/pexels-photo-5835255.jpeg?auto=compress&cs=tinysrgb&w=800',
-    category: 'Ayurvedic Herbs',
-    rating: 5,
-    reviews: 167
-  },
-  {
-    id: 5,
-    name: 'Wild Forest Honey',
-    price: 899,
-    image: 'https://images.pexels.com/photos/1638754/pexels-photo-1638754.jpeg?auto=compress&cs=tinysrgb&w=800',
-    category: 'Natural Sweeteners',
-    rating: 5,
-    reviews: 203,
-    badge: 'Pure'
-  },
-  {
-    id: 6,
-    name: 'Turmeric Curcumin Powder',
-    price: 449,
-    originalPrice: 599,
-    image: 'https://images.pexels.com/photos/4198638/pexels-photo-4198638.jpeg?auto=compress&cs=tinysrgb&w=800',
-    category: 'Healing Spices',
-    rating: 4,
-    reviews: 156
-  }
-];
 
-export default function FeaturedProducts() {
+interface FeaturedProductsProps {
+  products: Product[];
+}
+
+export default function FeaturedProducts({ products }: FeaturedProductsProps) {
   const [visibleItems, setVisibleItems] = useState<number[]>([]);
   const sectionRef = useRef<HTMLDivElement>(null);
 
@@ -89,7 +31,7 @@ export default function FeaturedProducts() {
     items?.forEach(item => observer.observe(item));
 
     return () => observer.disconnect();
-  }, []);
+  }, [products]);
 
   return (
     <section ref={sectionRef} className="py-20 bg-white">
@@ -111,7 +53,7 @@ export default function FeaturedProducts() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {featuredProducts.map((product, index) => (
+          {products.map((product, index) => (
             <div
               key={product.id}
               data-index={index}

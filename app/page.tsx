@@ -7,14 +7,20 @@ import WhyChoose from '@/components/ui/why-choose';
 import Testimonials from '@/components/ui/testimonials';
 import Newsletter from '@/components/ui/newsletter';
 import Footer from '@/components/ui/footer';
+import { getSections, getFeaturedProducts } from '@/lib/supabaseClient';
 
-export default function Home() {
+export default async function Home() {
+  const [sections, featuredProducts] = await Promise.all([
+    getSections(),
+    getFeaturedProducts(6)
+  ]);
+
   return (
     <main className="min-h-screen bg-warm-white">
       <Navbar />
       <HeroSection />
-      <CategoriesSection />
-      <FeaturedProducts />
+      <CategoriesSection sections={sections} />
+      <FeaturedProducts products={featuredProducts} />
       <BrandStory />
       <WhyChoose />
       <Testimonials />

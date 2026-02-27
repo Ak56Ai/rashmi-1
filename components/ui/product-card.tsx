@@ -1,20 +1,11 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ShoppingCart, Heart, Star } from 'lucide-react';
+import { Product } from '@/lib/supabaseClient';
 
-interface Product {
-  id: number;
-  name: string;
-  price: number;
-  originalPrice?: number;
-  image: string;
-  category: string;
-  rating: number;
-  reviews: number;
-  badge?: string;
-}
 
 interface ProductCardProps {
   product: Product;
@@ -26,19 +17,14 @@ export default function ProductCard({ product }: ProductCardProps) {
   return (
     <div className="group bg-white rounded-2xl overflow-hidden shadow-lg hover-lift image-zoom">
       {/* Product Image */}
-      <div className="relative aspect-w-16 aspect-h-12 overflow-hidden">
+      <Link href={`/product/${product.slug}`}>
+        <div className="relative aspect-w-16 aspect-h-12 overflow-hidden cursor-pointer">
         <img
           src={product.image}
           alt={product.name}
           className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-700"
         />
         
-        {/* Badge */}
-        {product.badge && (
-          <div className="absolute top-4 left-4 bg-soft-gold text-white px-3 py-1 rounded-full text-xs font-medium">
-            {product.badge}
-          </div>
-        )}
 
         {/* Wishlist Button */}
         <button
@@ -59,49 +45,49 @@ export default function ProductCard({ product }: ProductCardProps) {
             Quick Add
           </Button>
         </div>
-      </div>
+        </div>
+      </Link>
 
       {/* Product Info */}
       <div className="p-6">
-        <div className="mb-2">
-          <span className="text-sm text-soft-gold font-medium">{product.category}</span>
-        </div>
 
-        <h3 className="text-lg font-playfair font-semibold text-forest-green mb-2 line-clamp-2">
-          {product.name}
-        </h3>
+        <Link href={`/product/${product.slug}`}>
+          <h3 className="text-lg font-playfair font-semibold text-forest-green mb-2 line-clamp-2 hover:text-soft-gold transition-colors duration-300 cursor-pointer">
+            {product.name}
+          </h3>
+        </Link>
 
+        <p className="text-sm text-gray-600 mb-3 line-clamp-2">
+          {product.short_description}
+        </p>
         {/* Rating */}
         <div className="flex items-center space-x-1 mb-3">
           <div className="flex items-center">
             {[...Array(5)].map((_, i) => (
               <Star
                 key={i}
-                className={`h-4 w-4 ${
-                  i < product.rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'
-                }`}
+                className="h-4 w-4 fill-yellow-400 text-yellow-400"
               />
             ))}
           </div>
-          <span className="text-sm text-gray-600">({product.reviews})</span>
+          <span className="text-sm text-gray-600">(4.9)</span>
         </div>
 
         {/* Price */}
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <span className="text-xl font-bold text-forest-green">₹{product.price}</span>
-            {product.originalPrice && (
-              <span className="text-sm text-gray-500 line-through">₹{product.originalPrice}</span>
-            )}
           </div>
           
-          <Button 
-            variant="outline" 
-            size="sm" 
-            className="border-forest-green text-forest-green hover:bg-forest-green hover:text-white rounded-full"
-          >
-            <ShoppingCart className="h-4 w-4" />
-          </Button>
+          <Link href={`/product/${product.slug}`}>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="border-forest-green text-forest-green hover:bg-forest-green hover:text-white rounded-full"
+            >
+              <ShoppingCart className="h-4 w-4" />
+            </Button>
+          </Link>
         </div>
       </div>
     </div>

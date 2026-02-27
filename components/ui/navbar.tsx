@@ -2,12 +2,16 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Menu, X, ShoppingCart, User, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { supabase } from '@/lib/supabaseClient';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [user, setUser] = useState<any>(null);
+  const router = useRouter();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,6 +21,24 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    // Get initial user
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      setUser(user);
+    });
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      setUser(session?.user || null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    router.push('/');
+  };
   const navLinks = [
     { href: '/', label: 'Home' },
     { href: '/products', label: 'Products' },
@@ -62,11 +84,27 @@ export default function Navbar() {
             <Button variant="ghost" size="sm" className="text-forest-green hover:text-soft-gold">
               <Search className="h-5 w-5" />
             </Button>
-            <Link href="/login">
-              <Button variant="ghost" size="sm" className="text-forest-green hover:text-soft-gold">
-                <User className="h-5 w-5" />
-              </Button>
-            </Link>
+            {user ? (
+              <div className="flex items-center space-x-2">
+                <span className="text-sm text-forest-green">
+                  {user.user_metadata?.full_name || user.email}
+                </span>
+                <Button 
+                  onClick={handleSignOut}
+                  variant="ghost" 
+                  size="sm" 
+                  className="text-forest-green hover:text-soft-gold"
+                >
+                  Sign Out
+                </Button>
+              </div>
+            ) : (
+              <Link href="/login">
+                <Button variant="ghost" size="sm" className="text-forest-green hover:text-soft-gold">
+                  <User className="h-5 w-5" />
+                </Button>
+              </Link>
+            )}
             <Button variant="ghost" size="sm" className="text-forest-green hover:text-soft-gold relative">
               <ShoppingCart className="h-5 w-5" />
               <span className="absolute -top-2 -right-2 bg-soft-gold text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
@@ -106,10 +144,23 @@ export default function Navbar() {
                 </Link>
               ))}
               <div className="flex items-center space-x-2 px-3 py-2">
-                <Button variant="ghost" size="sm" className="text-forest-green">
-                  <User className="h-5 w-5 mr-2" />
-                  Account
-                </Button>
+                {user ? (
+                  <Button 
+                    onClick={handleSignOut}
+                    variant="ghost" 
+                    size="sm" 
+                    className="text-forest-green"
+                  >
+                    Sign Out
+                  </Button>
+                ) : (
+                  <Link href="/login">
+                    <Button variant="ghost" size="sm" className="text-forest-green">
+                      <User className="h-5 w-5 mr-2" />
+                      Account
+                    </Button>
+                  </Link>
+                )}
                 <Button variant="ghost" size="sm" className="text-forest-green">
                   <ShoppingCart className="h-5 w-5 mr-2" />
                   Cart
