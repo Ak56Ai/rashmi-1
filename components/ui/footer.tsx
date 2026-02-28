@@ -54,13 +54,31 @@ export default function Footer() {
           <div>
             <h3 className="text-lg font-playfair font-semibold mb-4">Categories</h3>
             <ul className="space-y-2">
-              {['Himalayan Herbs', 'Aromatic Spices', 'Wellness Teas', 'Essential Oils', 'Natural Salts'].map((item) => (
-                <li key={item}>
-                  <Link href="#" className="text-white/70 hover:text-soft-gold transition-colors duration-300">
-                    {item}
-                  </Link>
-                </li>
-              ))}
+              <li>
+                <Link href="/category/himalayan-herbs" className="text-white/70 hover:text-soft-gold transition-colors duration-300">
+                  Himalayan Herbs
+                </Link>
+              </li>
+              <li>
+                <Link href="/category/aromatic-spices" className="text-white/70 hover:text-soft-gold transition-colors duration-300">
+                  Aromatic Spices
+                </Link>
+              </li>
+              <li>
+                <Link href="/category/wellness-teas" className="text-white/70 hover:text-soft-gold transition-colors duration-300">
+                  Wellness Teas
+                </Link>
+              </li>
+              <li>
+                <Link href="/category/essential-oils" className="text-white/70 hover:text-soft-gold transition-colors duration-300">
+                  Essential Oils
+                </Link>
+              </li>
+              <li>
+                <Link href="/category/natural-salts" className="text-white/70 hover:text-soft-gold transition-colors duration-300">
+                  Natural Salts
+                </Link>
+              </li>
             </ul>
           </div>
 
