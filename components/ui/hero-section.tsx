@@ -49,7 +49,7 @@ export default function HeroSection() {
             
             <div className="flex flex-col sm:flex-row gap-4">
               <Button 
-                size="lg" 
+                href="/products"
                 className="bg-soft-gold hover:bg-soft-gold/90 text-forest-green font-semibold px-8 py-4 rounded-full text-lg group"
               >
                 Shop Collection
@@ -58,7 +58,7 @@ export default function HeroSection() {
               
               <Button 
                 variant="outline" 
-                size="lg"
+                href="/about"
                 className="border-white/30 text-white hover:bg-white/10 backdrop-blur-sm px-8 py-4 rounded-full text-lg"
               >
                 Our Story
