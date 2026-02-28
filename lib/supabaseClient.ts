@@ -1,4 +1,3 @@
-@@ .. @@
  export async function getProductBySlug(slug: string) {
    const { data, error } = await supabase
      .from('products')
