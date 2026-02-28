@@ -1,6 +1,8 @@
 import { Metadata } from 'next';
 import Image from 'next/image';
 import { Leaf, Mountain, Heart, Award } from 'lucide-react';
+import Navbar from '@/components/ui/navbar';
+import Footer from '@/components/ui/footer';
 
 export const metadata: Metadata = {
   title: 'About Us - Pansarika',
@@ -9,6 +11,7 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
+    <Navbar />
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
       {/* Hero Section */}
       <section className="relative py-20 px-4 sm:px-6 lg:px-8">
@@ -125,6 +128,7 @@ export default function AboutPage() {
             </p>
           </div>
         </div>
+        <Footer />
       </section>
     </div>
   );
