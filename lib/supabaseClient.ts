@@ -91,3 +91,42 @@ export async function getRelatedProducts(
 
   return data || [];
 }
+
+// Get all sections
+export async function getSections() {
+  const { data, error } = await supabase
+    .from('sections')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    console.error('Error fetching sections:', error);
+    return [];
+  }
+
+  return data || [];
+}
+
+// Get featured products
+export async function getFeaturedProducts(limit = 6) {
+  const { data, error } = await supabase
+    .from('products')
+    .select(`
+      *,
+      sections (
+        id,
+        name,
+        slug
+      )
+    `)
+    .eq('is_featured', true)
+    .order('created_at', { ascending: false })
+    .limit(limit);
+
+  if (error) {
+    console.error('Error fetching featured products:', error);
+    return [];
+  }
+
+  return data || [];
+}
